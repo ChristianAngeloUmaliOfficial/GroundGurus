@@ -8,19 +8,20 @@
     tools:context="learning.groundgurus.MainActivity">
 
     <TextView
-        android:id="@+id/tv_data_return"
+        android:id="@+id/tv_data_received"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <EditText
-        android:id="@+id/et_data_main"
+        android:id="@+id/et_data_sub"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/b_send_data"
+        android:id="@+id/b_return_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Send Data" />
+        android:text="Return Data" />
+
 
 </LinearLayout>

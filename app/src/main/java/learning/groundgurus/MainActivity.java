@@ -1,89 +1,56 @@
 package learning.groundgurus;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String status = "";
+    private static final int REQUEST_CODE = 1;
+
+    private TextView mDataReturn;
+    private EditText mData;
+    private Button mSendData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        status = "Activity Created";
-        displayStatus();
+        mDataReturn = (TextView) findViewById(R.id.tv_data_return);
+        mData = (EditText) findViewById(R.id.et_data_main);
+        mSendData = (Button) findViewById(R.id.b_send_data);
+
+        mSendData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(mData.getText().length() > 0){
+
+                    Intent intent = new Intent(v.getContext(), SubActivity.class);
+                    intent.putExtra("rc_data", mData.getText().toString());
+                    startActivityForResult(intent, REQUEST_CODE);
+
+                }
+
+            }
+        });
 
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-        status = "Activity Started";
-        displayStatus();
+        if(resultCode == RESULT_OK && requestCode == REQUEST_CODE){
+            mDataReturn.setText(data.getExtras().getString("rc_data_return"));
+        }
 
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        status = "Restoring Instance State";
-        displayStatus();
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        status = "Activity Resumed";
-        displayStatus();
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        status = "Activity Paused";
-        displayStatus();
-
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        status = "Saving Instance State";
-        displayStatus();
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        status = "Activity Stopped";
-        displayStatus();
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        status = "Activity Destroyed";
-        displayStatus();
-
-    }
-
-    private void displayStatus(){
-        Toast.makeText(getApplicationContext(), status, Toast.LENGTH_SHORT).show();
-        Log.d(this.getClass().getCanonicalName(), status);
     }
 }
