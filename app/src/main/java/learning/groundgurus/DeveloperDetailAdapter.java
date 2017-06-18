@@ -1,7 +1,6 @@
 package learning.groundgurus;
 
 import android.content.Context;
-import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,8 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
-import java.util.zip.Inflater;
 
 /**
  * Created by User on 6/18/2017.
@@ -46,16 +43,37 @@ public class DeveloperDetailAdapter extends ArrayAdapter<Developers> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        LayoutInflater inflater = LayoutInflater.from(context);
-        convertView = inflater.inflate(layoutResourceID, parent, false);
 
-        TextView devName = (TextView) convertView.findViewById(R.id.tv_dev_name);
-        TextView devOccu = (TextView) convertView.findViewById(R.id.tv_dev_occupation);
+        Placeholder placeholder = null;
+        View view = convertView;
 
-        devName.setText(developers[position].getName());
-        devOccu.setText(developers[position].getOccupation());
+        if (convertView == null) {
+
+            LayoutInflater inflater = LayoutInflater.from(context);
+            view = inflater.inflate(layoutResourceID, parent, false);
+
+            placeholder = new Placeholder();
+
+            placeholder.devName = (TextView) convertView.findViewById(R.id.tv_dev_name);
+            placeholder.devOccu = (TextView) convertView.findViewById(R.id.tv_dev_occupation);
+
+            view.setTag(placeholder);
+
+        } else {
+
+            placeholder = (Placeholder) view.getTag();
+
+        }
+
+        placeholder.devName.setText(developers[position].getName());
+        placeholder.devOccu.setText(developers[position].getOccupation());
 
         return convertView;
 
+    }
+
+    public class Placeholder {
+        TextView devName;
+        TextView devOccu;
     }
 }
